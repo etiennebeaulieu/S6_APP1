@@ -186,4 +186,8 @@ CMakeFiles/asset_conv.dir/src/asset_conv.cpp.o: \
  /usr/include/c++/12/bits/this_thread_sleep.h \
  /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
  /usr/include/c++/12/limits /usr/include/c++/12/ctime \
- /usr/include/c++/12/bits/parse_numbers.h
+ /usr/include/c++/12/bits/parse_numbers.h /usr/include/c++/12/list \
+ /usr/include/c++/12/bits/stl_list.h /usr/include/c++/12/bits/list.tcc \
+ /usr/include/c++/12/mutex /usr/include/c++/12/bits/std_mutex.h \
+ /usr/include/c++/12/bits/unique_lock.h \
+ /usr/include/c++/12/condition_variable

@@ -12,6 +12,9 @@
 #include <string>
 #include <cstring>
 #include <thread>
+#include <list>
+#include <mutex>
+#include <condition_variable>
 
 namespace gif643 {
 
@@ -217,7 +220,11 @@ private:
 
     std::vector<std::thread> queue_threads_;
 
+    std::mutex mutex_;
+    
+
 public:
+    std::condition_variable condVar;
     /// \brief Default constructor.
     ///
     /// Creates background threads that monitors and processes the task queue.
@@ -249,6 +256,11 @@ public:
         for (auto& qthread: queue_threads_) {
             qthread.join();
         }
+    }
+
+    bool getShouldRun()
+    {
+        return should_run_;
     }
 
     /// \brief Parse a task definition string and fills the references TaskDef
@@ -311,7 +323,9 @@ public:
         TaskDef def;
         if (parse(line_org, def)) {
             std::cerr << "Queueing task '" << line_org << "'." << std::endl;
+            std::unique_lock<std::mutex> lock(mutex_);
             task_queue_.push(def);
+            condVar.notify_all();
         }
     }
 
@@ -326,13 +340,24 @@ private:
     void processQueue()
     {
         while (should_run_) {
-            if (!task_queue_.empty()) {
-                TaskDef task_def = task_queue_.front();
-                task_queue_.pop();
-                TaskRunner runner(task_def);
-                runner();
+            std::unique_lock<std::mutex> lock(mutex_);
+            condVar.wait(lock, [&]{return !task_queue_.empty();});
+            
+            TaskDef task_def = task_queue_.front();
+            task_queue_.pop();
+
+            lock.unlock();
+
+            if(task_def.fname_in == "finished")
+            {
+                should_run_ = false;
+                break;
             }
+
+            TaskRunner runner(task_def);
+            runner();
         }
+        condVar.notify_all();
     }
 };
 
@@ -343,15 +368,23 @@ int main(int argc, char** argv)
     using namespace gif643;
 
     std::ifstream file_in;
+    int threadCount = NUM_THREADS;
+    std::mutex mutex_end;
+    std::condition_variable condVar_end;
 
-    if (argc >= 2 && (strcmp(argv[1], "-") != 0)) {
-        file_in.open(argv[1]);
+    if (argc >= 2)
+    {
+        threadCount = std::atoi(argv[1]);
+    }
+
+    if (argc >= 3 && (strcmp(argv[2], "-") != 0)) {
+        file_in.open(argv[2]);
         if (file_in.is_open()) {
             std::cin.rdbuf(file_in.rdbuf());
-            std::cerr << "Using " << argv[1] << "..." << std::endl;
+            std::cerr << "Using " << argv[2] << "..." << std::endl;
         } else {
             std::cerr   << "Error: Cannot open '"
-                        << argv[1] 
+                        << argv[2] 
                         << "', using stdin (press CTRL-D for EOF)." 
                         << std::endl;
         }
@@ -360,7 +393,7 @@ int main(int argc, char** argv)
     }
 
     // TODO: change the number of threads from args.
-    Processor proc;
+    Processor proc(threadCount);
     
     while (!std::cin.eof()) {
 
@@ -372,10 +405,17 @@ int main(int argc, char** argv)
         }
     }
 
+    proc.parseAndQueue("finished;;");
+
     if (file_in.is_open()) {
         file_in.close();
     }
 
     // Wait until the processor queue's has tasks to do.
+    std::unique_lock<std::mutex> lock_end(mutex_end);
+    proc.condVar.wait(lock_end, [&]{return !proc.getShouldRun();});
+    
     while (!proc.queueEmpty()) {};
+
+    return 0;
 }
