@@ -1,6 +1,6 @@
 CMakeFiles/lab_ex1.dir/src/lab_ex1.cpp.o: \
- /workspaces/gif643-proto-E24/src/lab_ex1.cpp /usr/include/stdc-predef.h \
- /usr/include/c++/12/cstdio \
+ /workspaces/Prob/gif643-proto-E24/src/lab_ex1.cpp \
+ /usr/include/stdc-predef.h /usr/include/c++/12/cstdio \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \

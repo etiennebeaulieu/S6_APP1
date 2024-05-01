@@ -1,4 +1,4 @@
-# Install script for directory: /workspaces/gif643-proto-E24
+# Install script for directory: /workspaces/Prob/gif643-proto-E24
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/workspaces/gif643-proto-E24/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/workspaces/Prob/gif643-proto-E24/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

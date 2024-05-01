@@ -1,6 +1,7 @@
 CMakeFiles/stb_image.dir/src/stb_image.c.o: \
- /workspaces/gif643-proto-E24/src/stb_image.c /usr/include/stdc-predef.h \
- /workspaces/gif643-proto-E24/src/stb/stb_image_write.h \
+ /workspaces/Prob/gif643-proto-E24/src/stb_image.c \
+ /usr/include/stdc-predef.h \
+ /workspaces/Prob/gif643-proto-E24/src/stb/stb_image_write.h \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

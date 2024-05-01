@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspaces/gif643-proto-E24/src/lab_ex2.cpp" "CMakeFiles/lab_ex2.dir/src/lab_ex2.cpp.o" "gcc" "CMakeFiles/lab_ex2.dir/src/lab_ex2.cpp.o.d"
+  "/workspaces/Prob/gif643-proto-E24/src/lab_ex2.cpp" "CMakeFiles/lab_ex2.dir/src/lab_ex2.cpp.o" "gcc" "CMakeFiles/lab_ex2.dir/src/lab_ex2.cpp.o.d"
   )
 
 # Targets to which this target links.
