@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/lab_ex1.dir/src/lab_ex1.cpp.o -o lab_ex1  -lpthread 

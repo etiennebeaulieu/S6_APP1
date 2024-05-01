@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/asset_conv.dir/src/asset_conv.cpp.o -o asset_conv  libnanosvg.a libstb_image.a -lpthread 
