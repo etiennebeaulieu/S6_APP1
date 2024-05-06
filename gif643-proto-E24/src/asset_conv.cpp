@@ -212,8 +212,10 @@ private:
     std::queue<TaskDef> task_queue_;
 
     // The cache hash map (TODO). Note that we use the string definition as the // key.
-    using PNGHashMap = std::unordered_map<std::string, PNGDataPtr>;
-    PNGHashMap png_cache_;
+    //using PNGHashMap = std::unordered_map<std::string, PNGDataPtr>;
+    //PNGHashMap png_cache_;
+
+    std::unordered_map<std::string, bool> taskCache_;
 
     bool should_run_;           // Used to signal the end of the processor to
                                 // threads.
@@ -324,8 +326,18 @@ public:
         if (parse(line_org, def)) {
             std::cerr << "Queueing task '" << line_org << "'." << std::endl;
             std::unique_lock<std::mutex> lock(mutex_);
-            task_queue_.push(def);
-            condVar.notify_all();
+            
+            if (taskCache_.find(line_org) == taskCache_.end())
+            {
+                taskCache_.insert({line_org, true});
+                task_queue_.push(def);
+                condVar.notify_all();
+            }
+            else
+            {
+                std::cerr << "Found in cache, not adding to queue." << std::endl;
+            }
+            
         }
     }
 
@@ -414,8 +426,6 @@ int main(int argc, char** argv)
     // Wait until the processor queue's has tasks to do.
     std::unique_lock<std::mutex> lock_end(mutex_end);
     proc.condVar.wait(lock_end, [&]{return !proc.getShouldRun();});
-    
-    while (!proc.queueEmpty()) {};
 
     return 0;
 }

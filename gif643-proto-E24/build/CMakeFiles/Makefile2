@@ -70,6 +70,7 @@ all: CMakeFiles/lab_ex1.dir/all
 all: CMakeFiles/lab_ex2.dir/all
 all: CMakeFiles/lab_ex3.dir/all
 all: CMakeFiles/lab_ex4.dir/all
+all: CMakeFiles/maxwell.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -84,6 +85,7 @@ clean: CMakeFiles/lab_ex1.dir/clean
 clean: CMakeFiles/lab_ex2.dir/clean
 clean: CMakeFiles/lab_ex3.dir/clean
 clean: CMakeFiles/lab_ex4.dir/clean
+clean: CMakeFiles/maxwell.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -93,7 +95,7 @@ clean: CMakeFiles/lab_ex4.dir/clean
 CMakeFiles/nanosvg.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/nanosvg.dir/build.make CMakeFiles/nanosvg.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/nanosvg.dir/build.make CMakeFiles/nanosvg.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/workspaces/Prob/gif643-proto-E24/build/CMakeFiles --progress-num=11,12 "Built target nanosvg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/workspaces/Prob/gif643-proto-E24/build/CMakeFiles --progress-num=13,14 "Built target nanosvg"
 .PHONY : CMakeFiles/nanosvg.dir/all
 
 # Build rule for subdir invocation for target.
@@ -119,7 +121,7 @@ CMakeFiles/nanosvg.dir/clean:
 CMakeFiles/stb_image.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/stb_image.dir/build.make CMakeFiles/stb_image.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/stb_image.dir/build.make CMakeFiles/stb_image.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/workspaces/Prob/gif643-proto-E24/build/CMakeFiles --progress-num=13,14 "Built target stb_image"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/workspaces/Prob/gif643-proto-E24/build/CMakeFiles --progress-num=15,16 "Built target stb_image"
 .PHONY : CMakeFiles/stb_image.dir/all
 
 # Build rule for subdir invocation for target.
@@ -268,6 +270,32 @@ lab_ex4: CMakeFiles/lab_ex4.dir/rule
 CMakeFiles/lab_ex4.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab_ex4.dir/build.make CMakeFiles/lab_ex4.dir/clean
 .PHONY : CMakeFiles/lab_ex4.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/maxwell.dir
+
+# All Build rule for target.
+CMakeFiles/maxwell.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/workspaces/Prob/gif643-proto-E24/build/CMakeFiles --progress-num=11,12 "Built target maxwell"
+.PHONY : CMakeFiles/maxwell.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/maxwell.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/Prob/gif643-proto-E24/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/maxwell.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/Prob/gif643-proto-E24/build/CMakeFiles 0
+.PHONY : CMakeFiles/maxwell.dir/rule
+
+# Convenience name for target.
+maxwell: CMakeFiles/maxwell.dir/rule
+.PHONY : maxwell
+
+# clean rule for target.
+CMakeFiles/maxwell.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/clean
+.PHONY : CMakeFiles/maxwell.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

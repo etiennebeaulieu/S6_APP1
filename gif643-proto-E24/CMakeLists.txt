@@ -26,3 +26,7 @@ target_link_libraries(lab_ex3 pthread)
 # Lab - executable pour partie Python
 add_executable(lab_ex4 src/lab_ex4.cpp)
 target_link_libraries(lab_ex4 pthread)
+
+# Prob
+add_executable(maxwell src/maxwell.cpp)
+target_link_libraries(maxwell pthread)

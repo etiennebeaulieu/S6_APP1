@@ -207,6 +207,19 @@ lab_ex4/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab_ex4.dir/build.make CMakeFiles/lab_ex4.dir/build
 .PHONY : lab_ex4/fast
 
+#=============================================================================
+# Target rules for targets named maxwell
+
+# Build rule for target.
+maxwell: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 maxwell
+.PHONY : maxwell
+
+# fast build rule for target.
+maxwell/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/build
+.PHONY : maxwell/fast
+
 src/asset_conv.o: src/asset_conv.cpp.o
 .PHONY : src/asset_conv.o
 
@@ -327,6 +340,30 @@ src/lab_ex4.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab_ex4.dir/build.make CMakeFiles/lab_ex4.dir/src/lab_ex4.cpp.s
 .PHONY : src/lab_ex4.cpp.s
 
+src/maxwell.o: src/maxwell.cpp.o
+.PHONY : src/maxwell.o
+
+# target to build an object file
+src/maxwell.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/src/maxwell.cpp.o
+.PHONY : src/maxwell.cpp.o
+
+src/maxwell.i: src/maxwell.cpp.i
+.PHONY : src/maxwell.i
+
+# target to preprocess a source file
+src/maxwell.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/src/maxwell.cpp.i
+.PHONY : src/maxwell.cpp.i
+
+src/maxwell.s: src/maxwell.cpp.s
+.PHONY : src/maxwell.s
+
+# target to generate assembly for a file
+src/maxwell.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/maxwell.dir/build.make CMakeFiles/maxwell.dir/src/maxwell.cpp.s
+.PHONY : src/maxwell.cpp.s
+
 src/nanosvg.o: src/nanosvg.c.o
 .PHONY : src/nanosvg.o
 
@@ -388,6 +425,7 @@ help:
 	@echo "... lab_ex2"
 	@echo "... lab_ex3"
 	@echo "... lab_ex4"
+	@echo "... maxwell"
 	@echo "... nanosvg"
 	@echo "... stb_image"
 	@echo "... src/asset_conv.o"
@@ -405,6 +443,9 @@ help:
 	@echo "... src/lab_ex4.o"
 	@echo "... src/lab_ex4.i"
 	@echo "... src/lab_ex4.s"
+	@echo "... src/maxwell.o"
+	@echo "... src/maxwell.i"
+	@echo "... src/maxwell.s"
 	@echo "... src/nanosvg.o"
 	@echo "... src/nanosvg.i"
 	@echo "... src/nanosvg.s"

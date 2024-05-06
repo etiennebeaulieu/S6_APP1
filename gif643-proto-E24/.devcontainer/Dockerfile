@@ -4,6 +4,8 @@ FROM debian:bookworm
 # Éviter les avertissements d'apt-get
 ENV DEBIAN_FRONTEND=noninteractive
 
+ENV DISPLAY XPS-Etienne:0.0
+
 # Création de l'utilisateur non-root
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -31,5 +33,10 @@ WORKDIR /workspace
 # Créer un environnement virtuel Python
 RUN python3 -m venv /workspace/venv \
     && . /workspace/venv/bin/activate \
-    && pip install --upgrade pip \
-    && pip install Cython numpy
+    && pip install --upgrade pip
+	
+RUN sudo apt-get update -y
+RUN sudo apt-get install -y libx11-dev
+RUN sudo apt-get install -y python3-tk
+RUN sudo apt-get install -y python3-numpy
+RUN sudo apt-get install -y python3-matplotlib

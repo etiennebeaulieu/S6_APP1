@@ -5,5 +5,6 @@
 /workspaces/Prob/gif643-proto-E24/build/CMakeFiles/lab_ex2.dir
 /workspaces/Prob/gif643-proto-E24/build/CMakeFiles/lab_ex3.dir
 /workspaces/Prob/gif643-proto-E24/build/CMakeFiles/lab_ex4.dir
+/workspaces/Prob/gif643-proto-E24/build/CMakeFiles/maxwell.dir
 /workspaces/Prob/gif643-proto-E24/build/CMakeFiles/edit_cache.dir
 /workspaces/Prob/gif643-proto-E24/build/CMakeFiles/rebuild_cache.dir
