@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 # GPL3, Copyright (c) Max Hofheinz, UdeS, 2021
-
-from matplotlib.figure import Figure
 import numpy, fiddle
 
 from subprocess import Popen, PIPE
 import mmap
-import time
 
 def subp(FNAME):
     subproc = Popen(["./maxwell", FNAME], stdin=PIPE, stdout=PIPE)
@@ -16,38 +13,20 @@ def signal_and_wait(subproc):
     subproc.stdin.write("START\n".encode())
     subproc.stdin.flush()                   # Nécessaire pour vider le tampon de sortie
     res = subproc.stdout.readline()
-    #print(res)
 
 def do_curl_E_cpp(E):
     shared_matrix = numpy.ndarray(shape=E.shape, dtype=numpy.float64, buffer=shm_mm)
     shared_matrix[:] = E
-    #print("PY:  Initial matrix:")
-    #print(shared_matrix)
-
     signal_and_wait(subproc)
-    #print("PY:  Result:")
-    #print(shared_matrix)
-
-    #print("PY:  Done")
 
     return shared_matrix
 
 def do_curl_H_cpp(H):
     shared_matrix = numpy.ndarray(shape=H.shape, dtype=numpy.float64, buffer=shm_mm)
     shared_matrix[:] = H
-    #print("PY:  Initial matrix:")
-    #print(shared_matrix)
-
     signal_and_wait(subproc)
-    #print("PY:  Result:")
-    #print(shared_matrix)
-
-
-    #print("PY:  Done")
 
     return shared_matrix
-
-
 
 def curl_E(E):
     curl_E = numpy.zeros(E.shape)
@@ -76,12 +55,20 @@ def curl_H(H):
 
 
 def timestep(E, H, courant_number, source_pos, source_val):
-    E += courant_number * do_curl_H_cpp(H)
-    #E += courant_number * curl_H(H)
-    E[source_pos] += source_val
+    cpp_E = E + courant_number * do_curl_H_cpp(H)
+    E += courant_number * curl_H(H)
     
-    H -= courant_number * do_curl_E_cpp(E)
-    #H -= courant_number * curl_E(E)
+    cpp_E[source_pos] += source_val
+    E[source_pos] += source_val
+
+    if numpy.allclose(cpp_E, E) != True:
+        print("Python and C++ results are different for E.")
+    
+    cpp_H = H - courant_number * do_curl_E_cpp(E)
+    H -= courant_number * curl_E(E)
+
+    if numpy.allclose(cpp_H, H) != True:
+        print("Python and C++ results are different for H.")
     return E, H
 
 

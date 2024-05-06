@@ -31,7 +31,6 @@ void wait_signal()
     // Attend une entrée (ligne complète avec \n) sur stdin.
     std::string msg;
     std::cin >> msg;
-    //std::cerr << "CPP: Got signal." << std::endl;
 }
 
 void ack_signal()
@@ -181,21 +180,22 @@ int main(int argc, char** argv)
 
     // Pointeur format double qui représente la matrice partagée:
     double* mtx = static_cast<double*>(shm_mmap);
-    Matrix mtx_vec{100, std::vector<std::vector<std::array<double, 3>>>{100, std::vector<std::array<double, 3>>{100}}};
+    // Matrice
+    Matrix new_mtx{100, std::vector<std::vector<std::array<double, 3>>>{100, std::vector<std::array<double, 3>>{100}}};
     
     
 
     while (true) {
         // On attend le signal du parent.
         wait_signal();
-        read_matrix(mtx_vec, mtx);
-        Matrix newH = curl<H>(mtx_vec);
+        read_matrix(new_mtx, mtx);
+        Matrix newH = curl<H>(new_mtx);
         write_matrix(newH, mtx);
         ack_signal();
 
         wait_signal();
-        read_matrix(mtx_vec, mtx);
-        Matrix newE = curl<E>(mtx_vec);
+        read_matrix(new_mtx, mtx);
+        Matrix newE = curl<E>(new_mtx);
         write_matrix(newE, mtx);
         ack_signal();
 

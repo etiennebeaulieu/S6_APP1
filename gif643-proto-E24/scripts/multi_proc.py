@@ -5,10 +5,10 @@ import os
 import subprocess
 import sys
 
-NUM_PROCESSES = 2
+NUM_PROCESSES = 4
 
 def run_process(task_desc):
-    p = subprocess.Popen(["./asset_conv"], stdin=subprocess.PIPE)
+    p = subprocess.Popen(["./asset_conv", "3"], stdin=subprocess.PIPE)
     p.communicate(input=task_desc.encode())
 
 
