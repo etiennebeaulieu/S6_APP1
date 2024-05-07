@@ -47,62 +47,124 @@ Matrix curl(const Matrix& mtx)
 
     auto threadX = [](Matrix& curl, const Matrix& mtx)
     {
-        for (int i = 0; i < MATRIX_SIZE; ++i) {
-            for (int j = 0; j < MATRIX_SIZE - 1; ++j) {
-                for (int k = 0; k < MATRIX_SIZE; ++k) {
-                    curl[i][j+isH][k][0] += mtx[i][j+1][k][2] - mtx[i][j][k][2];
+        auto threadX_1 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = 0; i < MATRIX_SIZE/2 -1; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (j < MATRIX_SIZE -1)
+                            curl[i][j+isH][k][0] += mtx[i][j+1][k][2] - mtx[i][j][k][2];
+
+                        if (k < MATRIX_SIZE -1)
+                            curl[i][j][k+isH][0] -= mtx[i][j][k+1][1] - mtx[i][j][k][1];
+                    }
+                }
+            }   
+        };
+
+        auto threadX_2 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = MATRIX_SIZE/2; i < MATRIX_SIZE; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (j < MATRIX_SIZE -1)
+                            curl[i][j+isH][k][0] += mtx[i][j+1][k][2] - mtx[i][j][k][2];
+
+                        if (k < MATRIX_SIZE -1)
+                            curl[i][j][k+isH][0] -= mtx[i][j][k+1][1] - mtx[i][j][k][1];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < MATRIX_SIZE; ++i) {
-            for (int j = 0; j < MATRIX_SIZE; ++j) {
-                for (int k = 0; k < MATRIX_SIZE - 1; ++k) {
-                    curl[i][j][k+isH][0] -= mtx[i][j][k+1][1] - mtx[i][j][k][1];
-                }
-            }
-        }
+        };
+
+        std::thread t1 (threadX_1, std::ref(curl), mtx);
+        std::thread t2 (threadX_2, std::ref(curl), mtx);
+
+        t1.join();
+        t2.join();
     };
 
     auto threadY = [](Matrix& curl, const Matrix& mtx)
     {
-        for (int i = 0; i < MATRIX_SIZE; ++i) {
-            for (int j = 0; j < MATRIX_SIZE; ++j) {
-                for (int k = 0; k < MATRIX_SIZE - 1; ++k) {
-                    curl[i][j][k+isH][1] += mtx[i][j][k+1][0] - mtx[i][j][k][0];
+        auto threadY_1 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = 0; i < MATRIX_SIZE/2 -1; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (k < MATRIX_SIZE -1)
+                            curl[i][j][k+isH][1] += mtx[i][j][k+1][0] - mtx[i][j][k][0];
+
+                        if (i < MATRIX_SIZE -1)
+                            curl[i+isH][j][k][1] -= mtx[i+1][j][k][2] - mtx[i][j][k][2];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < MATRIX_SIZE - 1; ++i) {
-            for (int j = 0; j < MATRIX_SIZE; ++j) {
-                for (int k = 0; k < MATRIX_SIZE - 1; ++k) {
-                    curl[i+isH][j][k][1] -= mtx[i+1][j][k][2] - mtx[i][j][k][2];
+        };
+
+        auto threadY_2 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = MATRIX_SIZE/2; i < MATRIX_SIZE; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (k < MATRIX_SIZE -1)
+                            curl[i][j][k+isH][1] += mtx[i][j][k+1][0] - mtx[i][j][k][0];
+
+                        if (i < MATRIX_SIZE -1)
+                            curl[i+isH][j][k][1] -= mtx[i+1][j][k][2] - mtx[i][j][k][2];
+                    }
                 }
             }
-        }
+        };
+
+        std::thread t1 (threadY_1, std::ref(curl), mtx);
+        std::thread t2 (threadY_2, std::ref(curl), mtx);
+
+        t1.join();
+        t2.join();
     };
 
     auto threadZ = [](Matrix& curl, const Matrix& mtx)
     {
-        for (int i = 0; i < MATRIX_SIZE - 1; ++i) {
-            for (int j = 0; j < MATRIX_SIZE - 1; ++j) {
-                for (int k = 0; k < MATRIX_SIZE; ++k) {
-                    curl[i+isH][j][k][2] += mtx[i+1][j][k][1] - mtx[i][j][k][1];
+        auto threadZ_1 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = 0; i < MATRIX_SIZE/2 -1; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (i < MATRIX_SIZE -1)
+                            curl[i+isH][j][k][2] += mtx[i+1][j][k][1] - mtx[i][j][k][1];
+
+                        if (j < MATRIX_SIZE - 1)
+                            curl[i][j+isH][k][2] -= mtx[i][j+1][k][0] - mtx[i][j][k][0];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < MATRIX_SIZE; ++i) {
-            for (int j = 0; j < MATRIX_SIZE - 1; ++j) {
-                for (int k = 0; k < MATRIX_SIZE - 1; ++k) {
-                    curl[i][j+isH][k][2] -= mtx[i][j+1][k][0] - mtx[i][j][k][0];
+        };
+
+        auto threadZ_2 = [](Matrix& curl, const Matrix& mtx)
+        {
+            for (int i = MATRIX_SIZE/2; i < MATRIX_SIZE; ++i) {
+                for (int j = 0; j < MATRIX_SIZE; ++j) {
+                    for (int k = 0; k < MATRIX_SIZE; ++k) {
+                        if (i < MATRIX_SIZE -1)
+                            curl[i+isH][j][k][2] += mtx[i+1][j][k][1] - mtx[i][j][k][1];
+
+                        if (j < MATRIX_SIZE - 1)
+                            curl[i][j+isH][k][2] -= mtx[i][j+1][k][0] - mtx[i][j][k][0];
+                    }
                 }
             }
-        }
+        };
+
+        std::thread t1 (threadZ_1, std::ref(curl), mtx);
+        std::thread t2 (threadZ_2, std::ref(curl), mtx);
+
+        t1.join();
+        t2.join();
     };
     
-    std::thread tx {threadX, std::ref(curl), mtx};
-    std::thread ty {threadY, std::ref(curl), mtx};
-    std::thread tz {threadZ, std::ref(curl), mtx};
-    //threadZ(curl, mtx);
+    std::thread tx (threadX, std::ref(curl), mtx);
+    std::thread ty (threadY, std::ref(curl), mtx);
+    std::thread tz (threadZ, std::ref(curl), mtx);
 
     tx.join();
     ty.join();
